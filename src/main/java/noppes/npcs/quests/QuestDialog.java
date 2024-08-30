@@ -2,6 +2,7 @@ package noppes.npcs.quests;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import noppes.npcs.NBTTags;
 import noppes.npcs.NoppesUtilServer;
 import noppes.npcs.api.handler.data.IQuestDialog;
@@ -54,9 +55,9 @@ public class QuestDialog extends QuestInterface implements IQuestDialog {
 				continue;
 			String title = dialog.title;
 			if(PlayerDataController.Instance.getPlayerData(player).dialogData.dialogsRead.contains(dialogId))
-				title += " (read)";
+				title += StatCollector.translateToLocal("quest.track.read");
 			else
-				title += " (unread)";
+				title += StatCollector.translateToLocal("quest.track.unread");
 			vec.add(title);
 		}
 
@@ -132,10 +133,10 @@ public class QuestDialog extends QuestInterface implements IQuestDialog {
 
                 String title = dialog.title;
                 if(!unread.isEmpty()){
-                    title += " (unread)";
+                    title += StatCollector.translateToLocal("quest.track.unread");
                 }
                 else {
-                    title += " (read)";
+                    title += StatCollector.translateToLocal("quest.track.read");
                 }
                 vec.add(title);
 
@@ -168,9 +169,9 @@ public class QuestDialog extends QuestInterface implements IQuestDialog {
                     continue;
                 String title = dialog.title;
                 if(playerData.dialogData.dialogsRead.contains(dialogId))
-                    title += " (read)";
+                    title += StatCollector.translateToLocal("quest.track.read");
                 else
-                    title += " (unread)";
+                    title += StatCollector.translateToLocal("quest.track.unread");
                 vec.add(title);
             }
             return vec;
@@ -201,9 +202,9 @@ public class QuestDialog extends QuestInterface implements IQuestDialog {
                     continue;
                 String title = dialog.title;
                 if(readValues.contains(dialogId))
-                    title += " (read)";
+                    title += StatCollector.translateToLocal("quest.track.read");
                 else
-                    title += " (unread)";
+                    title += StatCollector.translateToLocal("quest.track.unread");
                 vec.add(title);
             }
             return vec;
@@ -516,7 +517,7 @@ public class QuestDialog extends QuestInterface implements IQuestDialog {
 		}
 
 		public String getText() {
-			return this.dialog.title + (this.isCompleted() ? " (read)" : " (unread)");
+			return this.dialog.title + (this.isCompleted() ? StatCollector.translateToLocal("quest.track.read") : StatCollector.translateToLocal("quest.track.unread"));
 		}
 
         @Override

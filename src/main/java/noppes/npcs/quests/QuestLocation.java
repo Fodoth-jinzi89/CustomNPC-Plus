@@ -432,12 +432,12 @@ public class QuestLocation extends QuestInterface implements IQuestLocation {
 		}
 
 		public String getText() {
-			return this.location + ": " + (this.isCompleted() ? "Found" : "Not Found");
+			return this.location + ": " + (this.isCompleted() ? StatCollector.translateToLocal("quest.track.found") : StatCollector.translateToLocal("quest.track.not_found"));
 		}
 
         public String getAdditionalText() {
             if(party != null && parent.isMultiQuest(party) && completedPlayers.size() != party.getPlayerNames().size())
-                return  "Completed: " + String.join(", ", completedPlayers);
+                return  StatCollector.translateToLocal("quest.track.completed") + String.join(", ", completedPlayers);
             return null;
         }
 	}

@@ -285,11 +285,11 @@ public class GuiQuestLog extends GuiCNPCInventory implements ICustomScrollListen
     }
 
     private void drawQuestText(){
-    	TextBlockClient block = new TextBlockClient(data.getQuestText(), 174, true, player);
-        int yoffset = guiTop + 5;
+    	TextBlockClient block = new TextBlockClient(data.getQuestText(), 170, true, player);
+        int yoffset = 20;
     	for(int i = 0; i < block.lines.size(); i++){
     		String text = block.lines.get(i).getFormattedText();
-    		fontRendererObj.drawString(text, guiLeft + 142, guiTop + 20 + (i * fontRendererObj.FONT_HEIGHT), CustomNpcResourceListener.DefaultTextColor);
+    		fontRendererObj.drawString(text, guiLeft + 142, guiTop + yoffset + (i * fontRendererObj.FONT_HEIGHT), CustomNpcResourceListener.DefaultTextColor);
     	}
     }
 

@@ -2,6 +2,7 @@ package noppes.npcs.quests;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import noppes.npcs.NBTTags;
 import noppes.npcs.NoppesUtilServer;
 import noppes.npcs.api.handler.data.IQuestKill;
@@ -165,7 +166,7 @@ public class QuestKill extends QuestInterface implements IQuestKill {
                     vec.add("[" + String.join(", ", playerResults) + "]");
                 }
                 else {
-                    vec.add(firstLine + " (Done)");
+                    vec.add(firstLine + StatCollector.translateToLocal("quest.track.done"));
                 }
             }
         }
@@ -402,7 +403,7 @@ public class QuestKill extends QuestInterface implements IQuestKill {
 		public String getText() {
             if(party != null) {
                 if(party.getObjectiveRequirement() == EnumPartyObjectives.All ){
-                    return this.entity + ": " + this.getMaxProgress() + (isCompleted() ? " (Done)" : "");
+                    return this.entity + ": " + this.getMaxProgress() + (isCompleted() ? StatCollector.translateToLocal("quest.track.done") : "");
                 }
             }
 			return this.entity + ": " + this.getProgress() + "/" + this.getMaxProgress();
