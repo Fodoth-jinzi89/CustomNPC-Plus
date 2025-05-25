@@ -23,7 +23,7 @@ tasks.create('updateAPI', Exec) {
 
 // No Mixin Build Task
 tasks.create('buildNoMixin', Exec) {
-    description 'Builds mod without embed'
+   description 'Builds mod without embed'
     group 'CustomNPC+'
     commandLine 'build', '-Pnomixin'
 }
