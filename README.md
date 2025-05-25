@@ -1,50 +1,89 @@
-----------------
+---
 
-## 该分支的说明
+## 📌 分支说明
 
-该分支为 @[Fodoth_jinzi89](https://github.com/Fodoth-jinzi89) 为了更新《神剑创造者》而修改的版本。
+该分支为 [@Fodoth\_jinzi89](https://github.com/Fodoth-jinzi89) 为了更新《神剑创造者》而修改的版本。
 
+---
 
-注意：config中默认开启了mixin，故需要能提供mixin的依赖模组。你可以直接使用神剑里的配置（即安装[unimixins](https://github.com/GTNewHorizons/UniMixins)）。
+### ⚙️ Mixin 配置说明
 
-现在jar默认是no-mixin版本，也就是不把mixin所需要的库打包至jar中，不是说mixin就不生效了。
+* `config` 中默认 **开启 Mixin**，因此需要提供 Mixin 的依赖模组。推荐直接使用神剑配置（安装 [UniMixins](https://github.com/GTNewHorizons/UniMixins)）。
+* 当前发布的 `.jar` 默认为 **no-mixin 版本**，即未打包所需的 Mixin 库，但 **Mixin 仍会生效**，前提是你有正确安装依赖。
+* 如需禁用 Mixin，可在 `config` 中手动关闭。
 
-想要禁用mixin请在config中修改。
+---
 
+### 📚 Mantle 依赖说明
 
-注意2：现在依赖[Mantle](https://github.com/GTNewHorizons/Mantle) 。因为添加了一个剧情书。
+此分支现依赖 [Mantle](https://github.com/GTNewHorizons/Mantle)，原因如下：
 
-为了添加这本书，对Mantle原有的功能进行了大幅增强。这本书不仅字体上和SmoothFont以及[Angelica](https://github.com/GTNewHorizons/Angelica)兼容，还实现了多页目录、章节跳转的功能。
+* 添加了一本 **剧情书**，并大幅增强了 Mantle 的原有 GUI 功能。
+* 该书支持：
 
-顺带修好了原版的FontRenderer，现在换行后前一行的颜色样式如果被§r重置，不会错误地继承到下一行了。
+  * 与 SmoothFont 及 [Angelica](https://github.com/GTNewHorizons/Angelica) 字体系统兼容；
+  * 多页目录、章节跳转功能；
+* 同时修复并增强了 `FontRenderer`：
 
-也集成了[WrapFix](https://github.com/kappa-maintainer/WrapFix)的长文本正确断行功能。
+  * 现在在自动换行后，前一行若使用 `§r` 重置样式，下一行不会错误继承前一行颜色；
+  * 集成了 [WrapFix](https://github.com/kappa-maintainer/WrapFix)，支持长文本的 **正确断行**；
+  * 修复了 NEI 在物品名称后加入 `§h` 样式码的问题（这些非原版样式码不再被错误渲染，但保留其逻辑作用）；
 
-许多模组都会改FontRenderer，请注意可能的冲突。
+⚠️ **注意**：许多模组可能会修改 `FontRenderer`，可能存在冲突。
 
-同样修好了NEI在物品名字后面加入的§h。现在这些非原版的样式代码不会被渲染（但仍可正常发挥逻辑作用）。
+---
 
+### 🚫 暂未移植内容
 
-注意3：原模组1.9.3的动画功能增强我暂时不想移植，因为神剑不太用。
+原模组 `1.9.3` 中的 **动画功能增强** 当前未移植。由于《神剑创造者》中使用较少，故暂不计划加入。
 
+---
 
-### 增加的功能
+## 🧩 增强功能一览
 
-- 改变商人逻辑，现在兑换的物品会直接输入背包，可以按shift一键全部兑换（需要背包有空位）
-- 改变存储者逻辑，支持Shift滑动存取（类似MouseTweak），并为部分其它重要GUI添加了Shift滑动支持（如商人）
-- 增强吟游诗人，可以选方型范围播放，可以设置淡出
-- 可配置游戏追踪NPC的范围，解决雇佣兵不传送/吟游诗人音乐突然停止的问题
-- 可配置NPC是否只在被玩家（和驯服的狼）击杀时生成掉落物，解决例如凝土镇矮人炮台打败传送核心不掉东西的问题
-- 修正了任务追踪器不能应用颜色代码的问题
-- 修正全部汉化
+* 🛒 **商人系统改进**
 
-### 效果图
+  * 支持 Shift 一键全部兑换（需背包有空位）
+  * 兑换物品直接进入背包
 
-#### 商人:
+* 📦 **存储者交互优化**
+
+  * 支持 Shift 滑动存取（类似 MouseTweak）
+  * 商人等 GUI 同样支持 Shift 滑动操作
+
+* 🎵 **吟游诗人增强**
+
+  * 可选择播放范围（方形区域）
+  * 支持渐出淡出效果
+
+* 🧭 **游戏行为可配置化**
+
+  * 可配置 NPC 追踪范围，修复如雇佣兵不传送、音乐戛然而止等问题
+  * 可配置 NPC 掉落逻辑，仅在被玩家或驯服狼击杀时掉落
+
+* ✅ **其他修复**
+
+  * 修复任务追踪器颜色代码支持问题
+  * 完整汉化全部界面与文本
+
+---
+
+## 🖼️ 功能效果图展示
+
+### 💰 商人界面改进
+
 <img src="images/Trader2.gif" width="474" height="260"/>
 
-#### 吟游诗人:
+---
+
+### 🎶 吟游诗人区域播放功能
+
 <img src="images/Bard.png" width="474" height="260"/>
 
-#### 存储者/商人滑动支持:
+---
+
+### ⬇️ 商人/存储者滑动支持
+
 <img src="images/Trader3.gif" width="474" height="260"/>
+
+---
