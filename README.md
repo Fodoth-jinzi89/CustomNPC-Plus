@@ -4,17 +4,21 @@
 
 该分支为 @[Fodoth_jinzi89](https://github.com/Fodoth-jinzi89) 为了更新《神剑创造者》而修改的版本。
 
-注意：config中默认开启了mixin，故需要能提供mixin的依赖模组。你可以直接使用神剑里的配置（即安装unimixins）。
+
+注意：config中默认开启了mixin，故需要能提供mixin的依赖模组。你可以直接使用神剑里的配置（即安装[unimixins](https://github.com/GTNewHorizons/UniMixins)）。
 现在jar默认是no-mixin版本，也就是不把mixin所需要的库打包至jar中，不是说mixin就不生效了。
 想要禁用mixin请在config中修改。
 
-注意2：现在依赖 @[Mantle](https://github.com/GTNewHorizons/Mantle) 。因为添加了一个剧情书。
-为了添加这本书，对Mantle原有的功能进行了大幅增强。这本书不仅字体上和SmoothFont以及@[Angelica](https://github.com/GTNewHorizons/Angelica)兼容，还实现了多页目录、章节跳转的功能。
+
+注意2：现在依赖[Mantle](https://github.com/GTNewHorizons/Mantle) 。因为添加了一个剧情书。
+为了添加这本书，对Mantle原有的功能进行了大幅增强。这本书不仅字体上和SmoothFont以及[Angelica](https://github.com/GTNewHorizons/Angelica)兼容，还实现了多页目录、章节跳转的功能。
 顺带修好了原版的FontRenderer，现在换行后前一行的颜色样式如果被§r重置，不会错误地继承到下一行了。
 许多模组都会改FontRenderer，请注意可能的冲突。
 同样修好了NEI在物品名字后面加入的§h。现在这些非原版的样式代码不会被渲染（但仍可正常发挥逻辑作用）。
 
+
 注意3：原模组1.9.3的动画功能增强我暂时不想移植，因为神剑不太用。
+
 
 ### 增加的功能
 
