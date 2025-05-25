@@ -154,6 +154,9 @@ public class CustomItems {
 	public static Item letter;
 	public static Item bag;
 	public static Item satchel;
+	
+	public static Item scenarioBook;
+	public static Item manual;
 
 	public static Block redstoneBlock;
 	public static Block carpentyBench;
@@ -248,6 +251,10 @@ public class CustomItems {
 		soulstoneEmpty = new ItemSoulstoneEmpty().setUnlocalizedName("npcSoulstoneEmpty").setTextureName("customnpcs:npcSoulstoneEmpty").setCreativeTab(tab);
 		soulstoneFull = new ItemSoulstoneFilled().setUnlocalizedName("npcSoulstoneFilled").setTextureName("customnpcs:npcSoulstoneFilled");
 
+		scenarioBook = new ItemScenarioBook().setUnlocalizedName("npcScenarioBook").setMaxStackSize(1).setTextureName("customnpcs:npcScenarioBook");
+		manual = new ItemNpcManual();
+		
+		
         BlockDispenser.dispenseBehaviorRegistry.putObject(soulstoneFull, new BehaviorDefaultDispenseItem(){
 
         	@Override

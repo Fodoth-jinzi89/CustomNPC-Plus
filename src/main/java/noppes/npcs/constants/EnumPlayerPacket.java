@@ -5,5 +5,6 @@ public enum EnumPlayerPacket {
     Dialog, QuestLog, TrackedQuest, CheckQuestCompletion, BankSlotOpen, FactionsGet,
     MailGet, MailDelete, MailSend, MailRead, MailboxOpenMail,
     SignSave, SaveBook, CompanionOpenInv, RoleGet, KeyPressed,
-    MouseClicked, CompanionTalentExp, ScreenSize, MarkData
+    MouseClicked, CompanionTalentExp, ScreenSize, MarkData,
+	ScenarioBookUpdateInv, ScenarioBookMCBEdit, SaveScenarioBook, CloseMantleBook
 }

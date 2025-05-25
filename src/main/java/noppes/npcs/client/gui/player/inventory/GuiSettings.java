@@ -53,7 +53,7 @@ public class GuiSettings extends GuiCNPCInventory implements ITextfieldListener,
         this.addLabel(new GuiNpcLabel(10,"settings.dialogSpeed", guiLeft + 8, guiTop + 14 + y));
         this.addTextField(new GuiNpcTextField(10, this, this.fontRendererObj, guiLeft + 107, guiTop + 9 + y, 45, 20, ConfigClient.DialogSpeed + ""));
         getTextField(10).integersOnly = true;
-        getTextField(10).setMinMaxDefault(1, 20, 10);
+        getTextField(10).setMinMaxDefault(1, 100, 7);
 
         this.addLabel(new GuiNpcLabel(13,"settings.alignmentY", guiLeft + 8 + 155, guiTop + 14 + y));
         this.addTextField(new GuiNpcTextField(13, this, this.fontRendererObj, guiLeft + 107 + 160, guiTop + 9 + y, 45, 20, ConfigClient.TrackingInfoY + ""));

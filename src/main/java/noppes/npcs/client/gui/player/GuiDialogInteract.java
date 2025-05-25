@@ -373,7 +373,11 @@ public class GuiDialogInteract extends GuiNPCInterface implements IGuiClose
 		GL11.glPopMatrix();
 
 		GL11.glPushMatrix();
-			if (!options.isEmpty()) {
+		boolean isFinished = !dialog.renderGradual;
+		if(currentBlock >= lineBlocks.size()) {
+				isFinished = true;
+		}
+			if (!options.isEmpty() && isFinished) {
 				if (!dialog.showWheel) {
 					GL11.glTranslatef(dialog.optionOffsetX, dialog.optionOffsetY, 0);
 					drawLinedOptions(j);
@@ -455,7 +459,7 @@ public class GuiDialogInteract extends GuiNPCInterface implements IGuiClose
         	selected = 0;
 
 		if (dialog.showOptionLine) {
-			drawHorizontalLine(guiLeft - 60, guiLeft + xSize + 120, offset, 0xFFFFFFFF);
+			drawHorizontalLine(guiLeft - 60, guiLeft + dialog.getTextWidth() + 10, offset, 0xFFFFFFFF);
 		}
 
         for(int k = 0; k < options.size(); k++){

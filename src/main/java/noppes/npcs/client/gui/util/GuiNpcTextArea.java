@@ -27,6 +27,8 @@ public class GuiNpcTextArea extends GuiNpcTextField {
 	private boolean clickVerticalBar = false;
 	private boolean wrapLine = true;
 	private List<String> lines = new ArrayList<>();
+	private int color = 0xe0e0e0;
+	private boolean shadow = true;
 
 	public GuiNpcTextArea(int id,GuiScreen guiscreen, int i, int j, int k, int l, String s) {
 		super(id,guiscreen, i, j, k, l, s);
@@ -165,11 +167,13 @@ public class GuiNpcTextArea extends GuiNpcTextField {
 
 	@Override
 	public void drawTextBox(int mouseX, int mouseY) {
+		if(this.getEnableBackgroundDrawing()) {
         drawRect(posX - 1, posY - 1, posX + width + 1, posY + height + 1, 0xffa0a0a0);
         drawRect(posX, posY, posX + width, posY + height, 0xff000000);
+		}
 
         //int color = isEnabled?0xe0e0e0:0x707070;
-        int color = 0xe0e0e0;
+        //int color = 0xe0e0e0;
         boolean flag = isFocused() && (cursorCounter / 6) % 2 == 0;
         
         int startLine = getStartLineY();
@@ -185,7 +189,7 @@ public class GuiNpcTextArea extends GuiNpcTextField {
     		for(char c : wholeLine.toCharArray()){
         		if(font.width(line + c) > maxSize && wrapLine){
         			if(lineCount >= startLine && lineCount < maxLine)
-        				drawString(null, line, posX + 4, posY + 4 + ((lineCount - startLine) * font.height()), color);
+        				drawString(Minecraft.getMinecraft().fontRenderer, line, posX + 4, posY + 4 + ((lineCount - startLine) * font.height()), color);
         			line = "";
         			lineCount++;
         		}
@@ -193,7 +197,12 @@ public class GuiNpcTextArea extends GuiNpcTextField {
         			int xx = posX + font.width(line) + 4;
         			int yy = posY + ((lineCount - startLine) * font.height()) + 4;
             		if(getText().length() == cursorPosition){
-            			font.drawString("_", xx, yy, color);  
+            			if(shadow) {
+            				font.drawString("_", xx, yy, color);  
+            			} else {
+            				font.drawStringWithoutShadow("_", xx, yy, color);  
+            			}
+            			
             		}
             		else{
             			drawCursorVertical(xx, yy, xx + 1, yy + font.height());
@@ -203,12 +212,16 @@ public class GuiNpcTextArea extends GuiNpcTextField {
         		line += c;
     		}
 			if(lineCount >= startLine && lineCount < maxLine){
-				drawString(null, line, posX + 4, posY + 4 + ((lineCount - startLine) * (font.height())), color);
+				drawString(Minecraft.getMinecraft().fontRenderer, line, posX + 4, posY + 4 + ((lineCount - startLine) * (font.height())), color);
 	        	if(flag && charCount == cursorPosition && canEdit){
 	    			int xx = posX + font.width(line) + 4;
 	    			int yy = posY + ((lineCount - startLine) * font.height()) + 4;
 	        		if(getText().length() == cursorPosition){
-	        			font.drawString("_", xx, yy, color);  
+            			if(shadow) {
+            				font.drawString("_", xx, yy, color);  
+            			} else {
+            				font.drawStringWithoutShadow("_", xx, yy, color);  
+            			}
 	        		}
 	        		else{
 	        			drawCursorVertical(xx, yy, xx + 1, yy + font.height());
@@ -245,7 +258,11 @@ public class GuiNpcTextArea extends GuiNpcTextField {
 	
     public void drawString(FontRenderer fontRendererIn, String text, int x, int y, int color){
     	GL11.glColor4f(1, 1, 1, 1);
-    	font.drawString(text, x, y, color);
+		if(shadow) {
+			font.drawString(text, x, y, color);  
+		} else {
+			font.drawStringWithoutShadow(text, x, y, color);  
+		}
     	//super.drawString(fontRendererIn, text, x, y, color);
     }
 	
@@ -328,4 +345,22 @@ public class GuiNpcTextArea extends GuiNpcTextField {
         }
         drawTexturedModalRect(x, y, width, 11, 5, 1);
     }
+
+	public int getColor() {
+		return color;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
+	}
+
+	public boolean isShadow() {
+		return shadow;
+	}
+
+	public void setShadow(boolean shadow) {
+		this.shadow = shadow;
+	}
+
+
 }

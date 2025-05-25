@@ -5,7 +5,15 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
+import mantle.books.BookData;
+import mantle.books.BookDataStore;
+import mantle.client.MProxyClient;
+import mantle.client.SmallFontRenderer;
+import mantle.client.pages.ContentsTablePage;
+import mantle.lib.client.MantleClientRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.particle.EntityFX;
@@ -17,12 +25,16 @@ import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
@@ -48,6 +60,11 @@ import noppes.npcs.client.gui.script.GuiScriptBlock;
 import noppes.npcs.client.gui.script.GuiScriptGlobal;
 import noppes.npcs.client.gui.script.GuiScriptItem;
 import noppes.npcs.client.model.*;
+import noppes.npcs.client.pages.NovelChapterPage;
+import noppes.npcs.client.pages.NovelContentsPage;
+import noppes.npcs.client.pages.NovelDedicatePage;
+import noppes.npcs.client.pages.NovelTextPage;
+import noppes.npcs.client.pages.NpcBookData;
 import noppes.npcs.client.renderer.*;
 import noppes.npcs.client.renderer.blocks.*;
 import noppes.npcs.client.renderer.items.CustomItemRenderer;
@@ -63,22 +80,99 @@ import noppes.npcs.entity.data.ModelData;
 import noppes.npcs.entity.data.ModelPartData;
 import noppes.npcs.items.ItemScripted;
 import org.lwjgl.input.Keyboard;
+import org.w3c.dom.Document;
+
 import tconstruct.client.tabs.InventoryTabCustomNpc;
 import tconstruct.client.tabs.InventoryTabVanilla;
 import tconstruct.client.tabs.TabRegistry;
+
+import static mantle.lib.CoreRepo.logger;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class ClientProxy extends CommonProxy {
 	public static KeyBinding NPCButton;
 
 	public static FontContainer Font;
+	
+    public static Document curiousIncident;
+    public static ManualInfo manualData;
+    public static SmallFontRenderer smallFontRenderer;
+    
+    public void registerRenderer() {
+        Minecraft mc = Minecraft.getMinecraft();
+        if (mc.getTextureManager() == null) logger.error("Vanilla texture manager is null!");
+        if (mc.renderEngine == null) logger.error("Vanilla render engine is null!");
+        smallFontRenderer = new NpcBookFontRenderer(
+                mc.gameSettings,
+                new ResourceLocation("minecraft:textures/font/ascii.png"),
+                mc.renderEngine,
+                false);
+    }
+    
+    public void readManuals() {
+        initManualIcons();
+        initManualRecipes();
+        initManualPages();
+        readNPCManuals();
+    }
+    
+    private void readNPCManuals() {
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        String currentLanguage = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
+        Document curiousIncident_cl = readManual("/assets/customnpcs/manuals/" + currentLanguage + "/curious_incident.xml", dbFactory);
+        curiousIncident = curiousIncident_cl != null ? curiousIncident_cl : readManual("/assets/customnpcs/manuals/en_US/curious_incident.xml", dbFactory);
+        manualData = new ManualInfo();
+    }
+    
+    Document readManual(String location, DocumentBuilderFactory dbFactory) {
+        try {
+            InputStream stream = CustomNpcs.class.getResourceAsStream(location);
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(stream);
+            doc.getDocumentElement().normalize();
+            return doc;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public void initManualIcons() {
+        MantleClientRegistry.registerManualIcon("torch", new ItemStack(Blocks.torch));
+        MantleClientRegistry.registerManualIcon("sapling", new ItemStack(Blocks.sapling));
+        MantleClientRegistry.registerManualIcon("workbench", new ItemStack(Blocks.crafting_table));
+        MantleClientRegistry.registerManualIcon("coal", new ItemStack(Items.coal));
+
+        MantleClientRegistry.registerManualIcon("woodplanks", new ItemStack(Blocks.planks));
+        MantleClientRegistry.registerManualIcon("stoneblock", new ItemStack(Blocks.stone));
+        MantleClientRegistry.registerManualIcon("ironingot", new ItemStack(Items.iron_ingot));
+        MantleClientRegistry.registerManualIcon("flint", new ItemStack(Items.flint));
+        MantleClientRegistry.registerManualIcon("cactus", new ItemStack(Blocks.cactus));
+        MantleClientRegistry.registerManualIcon("bone", new ItemStack(Items.bone));
+        MantleClientRegistry.registerManualIcon("obsidian", new ItemStack(Blocks.obsidian));
+        MantleClientRegistry.registerManualIcon("netherrack", new ItemStack(Blocks.netherrack));
+    }
+    
+    public void initManualRecipes() {}
+    void initManualPages() {
+    	MProxyClient.registerManualPage("novel_contents", NovelContentsPage.class);
+    	MProxyClient.registerManualPage("novel_dedicate", NovelDedicatePage.class);
+    	MProxyClient.registerManualPage("novel_chapter", NovelChapterPage.class);
+    	MProxyClient.registerManualPage("novel_text", NovelTextPage.class);
+    }
 
 	public void load() {
+		//registerRenderer();
+		readManuals();
 		Font = new FontContainer(ConfigClient.FontType, ConfigClient.FontSize);
 		createFolders();
 		CustomNpcs.Channel.register(new PacketHandlerClient());
@@ -594,6 +688,16 @@ public class ClientProxy extends CommonProxy {
 				Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text, x, y, color);
 			}
 		}
+		
+		public void drawStringWithoutShadow(String text, int x, int y, int color) {
+			if(useCustomFont){
+				textFont.renderString(text, x, y, color, true);
+				textFont.renderString(text, x, y, color, false);
+			}
+			else{
+				Minecraft.getMinecraft().fontRenderer.drawString(text, x, y, color);
+			}
+		}
 
 		public String getName() {
 			if(!useCustomFont)
@@ -601,4 +705,48 @@ public class ClientProxy extends CommonProxy {
 			return textFont.usedFont().getFontName();
 		}
 	}
+	
+	public class ManualInfo {
+
+	    public ManualInfo() {
+	        Side side = FMLCommonHandler.instance().getEffectiveSide();
+
+	        System.out.println("[ManualInfo] Effective side: " + side.name());
+
+	        ResourceLocation bookLeft = new ResourceLocation("customnpcs", "textures/gui/bookleftdog.png");
+	        ResourceLocation bookRight = new ResourceLocation("customnpcs", "textures/gui/bookrightdog.png");
+	        BookData book = new NpcBookData(bookLeft, bookRight);
+	        String unlocName = "curious_incident";
+	        String toolTip = "\u00a7o" + StatCollector.translateToLocal("customnpcs.manual.curious_incident.tooltip");
+	        Document xmlDoc = (side == Side.CLIENT ? ClientProxy.curiousIncident : null);
+	        String itemImage = "customnpcs:curious_incident";
+
+	        System.out.println("[ManualInfo] Initializing manual:");
+	        System.out.println("  - unlocName: " + unlocName);
+	        System.out.println("  - toolTip: " + toolTip);
+	        System.out.println("  - itemImage: " + itemImage);
+	        System.out.println("  - XML Document present: " + (xmlDoc != null));
+
+	        initManual(book, unlocName, toolTip, xmlDoc, itemImage);
+	    }
+
+	    public BookData initManual(BookData data, String unlocName, String toolTip, Document xmlDoc, String itemImage) {
+	        data.unlocalizedName = unlocName;
+	        data.toolTip = unlocName;
+	        data.modID = "customnpcs";
+	        data.itemImage = new ResourceLocation(data.modID, itemImage);
+	        data.doc = xmlDoc;
+
+	        System.out.println("[ManualInfo] Registering book data:");
+	        System.out.println("  - data.unlocalizedName: " + data.unlocalizedName);
+	        System.out.println("  - data.modID: " + data.modID);
+	        System.out.println("  - data.itemImage: " + data.itemImage);
+	        System.out.println("  - XML Document present: " + (data.doc != null));
+
+	        BookDataStore.addBook(data);
+
+	        return data;
+	    }
+	}
+
 }

@@ -42,13 +42,13 @@ public class Dialog implements ICompatibilty, IDialog {
 	//0 - Bottom, 1 - Top, 2 - Center [Unimplemented]
 	public byte alignment = 0;
 
-	public boolean renderGradual = false;
+	public boolean renderGradual = true;
 	public boolean showPreviousBlocks = true;
 
 	public String textSound = "minecraft:random.wood_click";
 	public float textPitch = 1.0F;
 
-	public int textWidth = 300;
+	public int textWidth = 200;
 	public int textHeight = 400;
 
 	public int titlePos;

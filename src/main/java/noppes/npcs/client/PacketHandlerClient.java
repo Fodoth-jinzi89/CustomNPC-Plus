@@ -27,6 +27,7 @@ import noppes.npcs.client.gui.GuiNpcMobSpawnerAdd;
 import noppes.npcs.client.gui.OverlayQuestTracking;
 import noppes.npcs.client.gui.customoverlay.OverlayCustom;
 import noppes.npcs.client.gui.player.GuiBook;
+import noppes.npcs.client.gui.player.GuiScenarioBook2;
 import noppes.npcs.client.gui.util.*;
 import noppes.npcs.config.ConfigClient;
 import noppes.npcs.constants.EnumGuiType;
@@ -293,6 +294,9 @@ public class PacketHandlerClient extends PacketHandlerServer{
 			int x = buffer.readInt(), y = buffer.readInt(), z = buffer.readInt();
 
 			NoppesUtil.openGUI(player, new GuiBook(player, ItemStack.loadItemStackFromNBT(Server.readNBT(buffer)), x, y, z));
+		}
+		else if(type == EnumPacketClient.OPEN_SCENARIO_BOOK){
+			NoppesUtil.openGUI(player, new GuiScenarioBook2(player, ItemStack.loadItemStackFromNBT(Server.readNBT(buffer))));
 		}
 		else if(type == EnumPacketClient.CONFIG){
 			int config = buffer.readInt();

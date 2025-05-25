@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 import noppes.npcs.NoppesUtilServer;
 import noppes.npcs.api.entity.IPlayer;
 import noppes.npcs.api.handler.IPlayerQuestData;
@@ -330,25 +331,36 @@ public class Party implements IParty {
                         boolean hasActive = questData.hasActiveQuest(quest.getId());
                         boolean hasFinished = questData.hasFinishedQuest(quest.getId());
 
+                        /*
+                         * 一个关键任务的正规设置：
+                         * 允许组队：是
+                         * 仅队伍：是
+                         * 需求者：All
+                         * 目标：Shared
+                         * 任务奖励：All
+                         * 完成于：All
+                         * 执行命令于：All
+                         */
+                        
                         if (requirements == EnumPartyRequirements.All && !hasActive) {
                             allowQuest = false;
-                            sendInfoMessage(leader, String.format("%s does not have quest active", player.getCommandSenderName()), sendLeaderMessages);
+                            sendInfoMessage(leader, StatCollector.translateToLocalFormatted("quest.party.error.active", player.getCommandSenderName()), sendLeaderMessages);
                         } else if (requirements == EnumPartyRequirements.Valid && !hasActive && !hasFinished) {
                             allowQuest = false;
-                            sendInfoMessage(leader, String.format("%s does not have the quest active or finished", player.getCommandSenderName()), sendLeaderMessages);
+                            sendInfoMessage(leader, String.format("quest.party.error.valid", player.getCommandSenderName()), sendLeaderMessages);
                         }
                     } else {
                         allowQuest = false;
-                        sendInfoMessage(leader, String.format("%s has no quest data", player.getCommandSenderName()), sendLeaderMessages);
+                        sendInfoMessage(leader, String.format("quest.party.error.questdata", player.getCommandSenderName()), sendLeaderMessages);
                     }
                 } else {
                     allowQuest = false;
-                    sendInfoMessage(leader, String.format("%s has no player data", player.getCommandSenderName()), sendLeaderMessages);
+                    sendInfoMessage(leader, String.format("quest.party.error.playerdata", player.getCommandSenderName()), sendLeaderMessages);
                 }
             } else {
                 allowQuest = false;
                 String playerName = partyMembers.get(playerUUID);
-                sendInfoMessage(leader, String.format("%s was not found", playerName), sendLeaderMessages);
+                sendInfoMessage(leader, String.format("quest.party.error.player", playerName), sendLeaderMessages);
             }
         }
         return allowQuest;

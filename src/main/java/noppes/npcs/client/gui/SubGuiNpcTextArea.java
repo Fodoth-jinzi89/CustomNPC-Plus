@@ -27,7 +27,9 @@ public class SubGuiNpcTextArea extends SubGuiInterface{
 		if(textarea != null)
 			this.text = textarea.getText();
 		int yoffset = (int) (ySize * 0.02);
-		this.addTextField(textarea = new GuiNpcTextArea(2, this, guiLeft + yoffset, guiTop + yoffset, xSize - 100 - yoffset * 2, ySize - yoffset * 2, text));
+		GuiNpcTextArea ta = new GuiNpcTextArea(2, this, guiLeft + yoffset, guiTop + yoffset, xSize - 100 - yoffset * 2, ySize - yoffset * 2, text);
+		ta.setEnableBackgroundDrawing(true);
+		this.addTextField(textarea = ta);
 
 		
 		this.buttonList.add(new GuiNpcButton(102, guiLeft + xSize - 90 - yoffset, guiTop + 20, 56, 20, "gui.clear"));

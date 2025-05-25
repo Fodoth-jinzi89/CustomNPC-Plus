@@ -1,5 +1,6 @@
 package noppes.npcs;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -13,6 +14,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.oredict.OreDictionary;
 import noppes.npcs.api.entity.IPlayer;
@@ -426,6 +428,25 @@ public class NoppesUtilPlayer {
         data.setTrackedQuestKey(player);
         Server.sendData(player, EnumPacketClient.PARTY_DATA, data.writeTrackedQuest());
     }
+    
+	public static void sendScenarioUpdateInv(EnumPlayerPacket enu, ItemStack stackostuff, boolean isSWP) {
+		ByteBuf buffer = Unpooled.buffer();
+		buffer.writeInt(enu.ordinal());
+		ByteBufUtils.writeItemStack(buffer, stackostuff);
+        buffer.writeBoolean(isSWP);
+		CustomNpcs.ChannelPlayer.sendToServer(new FMLProxyPacket(buffer,"ScenarioUpdateInv"));
+	}
+	
+	public static void sendScenarioMCBEdit(EnumPlayerPacket enu, BlockPos pos, int currentPage, ItemStack book) {
+		ByteBuf buffer = Unpooled.buffer();
+		buffer.writeInt(enu.ordinal());
+		buffer.writeInt(pos.getX());
+		buffer.writeInt(pos.getY());
+		buffer.writeInt(pos.getZ());
+		buffer.writeInt(currentPage);
+        ByteBufUtils.writeItemStack(buffer, book);
+		CustomNpcs.ChannelPlayer.sendToServer(new FMLProxyPacket(buffer,"ScenarioMCBEdit"));
+	}
 
 	public static boolean questCompletion(EntityPlayerMP player, int questId) {
 		if(player == null)

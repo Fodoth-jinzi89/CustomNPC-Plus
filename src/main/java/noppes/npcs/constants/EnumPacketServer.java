@@ -111,6 +111,8 @@ public enum EnumPacketServer {
 
 	SavePartyData, CreateParty, GetPartyData, DisbandParty, KickPlayer, LeavePlayer, PartyInvite, GetPartyInviteList, AcceptInvite,
 	IgnoreInvite, SetPartyLeader, SetPartyQuest,
+	
+
 
     ServerUpdateSkinOverlays;
 

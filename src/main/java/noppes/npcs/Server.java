@@ -1,12 +1,15 @@
 package noppes.npcs;
 
 import com.google.common.base.Charsets;
+
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
@@ -103,6 +106,8 @@ public class Server {
             }
 			else if(ob instanceof NBTTagCompound)
 				writeNBT(buffer, (NBTTagCompound) ob);
+			else if(ob instanceof ItemStack)
+				ByteBufUtils.writeItemStack(buffer, (ItemStack)ob);
 		}
 		if(buffer.array().length >= 32767){
 			LogWriter.error("Packet " + enu + " was too big to be send");

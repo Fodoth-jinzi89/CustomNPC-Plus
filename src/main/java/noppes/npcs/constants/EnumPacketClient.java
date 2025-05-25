@@ -36,6 +36,7 @@ public enum EnumPacketClient {
     CLONER,
     TELEPORTER,
 	OPEN_BOOK,
+	OPEN_SCENARIO_BOOK,
 	DIALOG_DUMMY,
 	CONFIG,
 	ISGUIOPEN,

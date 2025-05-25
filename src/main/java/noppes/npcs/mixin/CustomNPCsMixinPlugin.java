@@ -46,6 +46,7 @@ public class CustomNPCsMixinPlugin implements IMixinConfigPlugin {
         if(client){
             if (ConfigMixin.EntityRendererMixin){
                 mixins.add("MixinEntityRenderer");
+                mixins.add("MixinFontRenderer");
             }
             if (ConfigMixin.AnimationMixin) {
                 mixins.add("MixinModelRenderer");

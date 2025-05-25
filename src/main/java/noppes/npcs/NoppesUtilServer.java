@@ -319,6 +319,8 @@ public class NoppesUtilServer {
 
 		Server.sendData((EntityPlayerMP)player, EnumPacketClient.SCROLL_LIST, list);
 	}
+	
+	
 
 
 	private static void sendExtraData(EntityPlayer player, EntityNPCInterface npc, EnumGuiType gui, int i, int j, int k) {

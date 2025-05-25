@@ -182,6 +182,7 @@ public class CustomNpcs {
     @EventHandler
     public void load(FMLInitializationEvent ev) {
 
+        proxy.registerRenderer();
         MARKOV_GENERATOR[0] = new MarkovRoman(3);
         MARKOV_GENERATOR[1] = new MarkovJapanese(4);
         MARKOV_GENERATOR[2] = new MarkovSlavic(3);

@@ -61,7 +61,7 @@ public class ConfigClient
     public static int TrackingScale = 100;
 
     public static Property DialogSpeedProperty;
-    public static int DialogSpeed = 10;
+    public static int DialogSpeed = 7;
 
     public static Property DialogSoundProperty;
     public static boolean DialogSound = true;
@@ -116,8 +116,8 @@ public class ConfigClient
             TrackingScaleProperty = config.get(QUESTING, "Tracking Scale", 100, "Client sided! Adjusts the scaling of the Quest Tracking");
             TrackingScale = TrackingScaleProperty.getInt(100);
 
-            DialogSpeedProperty = config.get(VISUAL, "Dialog Speed", true, "Only set for gradual dialogs");
-            DialogSpeed = DialogSpeedProperty.getInt(10);
+            DialogSpeedProperty = config.get(VISUAL, "Dialog Speed", 1, "Only set for gradual dialogs");
+            DialogSpeed = DialogSpeedProperty.getInt(1);
 
             DialogSoundProperty = config.get(VISUAL, "Dialog Sound", true, "Only for dialogs with sounds");
             DialogSound = DialogSoundProperty.getBoolean(true);

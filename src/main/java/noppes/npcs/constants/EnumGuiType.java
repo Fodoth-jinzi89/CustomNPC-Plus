@@ -54,6 +54,7 @@ public enum EnumGuiType {
 	CompanionTalent,
 	CompanionTrader,
 	ManageLinked,
+	ScenarioBook,
 	CustomGui,
 	ScriptItem,
 	ScriptBlock;
